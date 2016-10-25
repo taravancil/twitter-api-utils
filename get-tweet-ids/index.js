@@ -1,0 +1,127 @@
+#!/usr/bin/env node
+
+const args = require('args')
+const OAuth = require('oauth').OAuth
+
+// Your Twitter API keys and tokens
+// See README.md for further instructions
+const API_KEY = process.env.TWITTER_API_KEY
+const API_SECRET = process.env.TWITTER_API_SECRET
+const ACCESS_TOKEN = process.env.TWITTER_ACCESS_TOKEN
+const ACCESS_TOKEN_SECRET = process.env.TWITTER_ACCESS_TOKEN_SECRET
+
+// Set up OAuth
+const oauth = new OAuth(
+  'https://api.twitter.com/oauth/request_token',
+  'https://api.twitter.com/oauth/access_token',
+  API_KEY,
+  API_SECRET,
+  '1.0A',
+  null,
+  'HMAC-SHA1'
+)
+
+args
+  .option('maxid', 'The value to pass to the max_id parameter in the request')
+  .option('username', 'The Twitter user whose tweets the script will fetch')
+  .option('count', 'The number of tweets to fetch. Maximum 200')
+  .option('retweets', 'Include retweets')
+  .option('output', 'The file to write to')
+  .option('replies', 'Include replies')
+
+const flags = args.parse(process.argv)
+
+// The tweet id of the last tweet fetched
+let lastFetched
+
+validateOptions()
+getTweetIds()
+
+function validateOptions () {
+  if (!flags.username) {
+    console.error('Username is required')
+    process.exit()
+  } else if (flags.count > 200) {
+    console.error('Max count is 200. Fetching 200 tweets...')
+  }
+}
+
+function constructRequestURL (username, tweetCount, includeRetweets,
+                              maxID, includeReplies) {
+  const base = 'https://api.twitter.com/1.1/statuses/user_timeline.json?'
+  const screenname = `screen_name=${username}`
+  const retweets = `&include_rts=${includeRetweets || false}`
+  const replies = `&exclude_replies=${!includeReplies}`
+  const count = `&count=${tweetCount}`
+
+  let maxTweetID = ''
+  if (maxID) {
+    maxTweetID = `max_id=${maxID}`
+  }
+
+  return `${base}${screenname}${retweets}${replies}${maxTweetID}${count}`
+}
+
+async function getTweetIds () {
+  let ids = []
+  let isSubsequentRun = false
+
+  const {username, retweets, replies} = flags
+  const count = flags.count || 200 // max value for count param in request
+
+  // Keep requesting tweets until we hit the Twitter API limits or
+  // we've reached the desired count
+  outerLoop:
+  for (;;) {
+    try {
+      let tweets = await getTweets(username, count, retweets, lastFetched, replies)
+
+      // If this is a subsequent run, ignore the first tweet in the
+      // response data, which will be the last tweet from the last run
+      if (isSubsequentRun) {
+        tweets = tweets.slice(1)
+      }
+
+      // Parse the tweet IDs
+      for (const tweet of tweets) {
+        ids.push(tweet.id)
+        if (ids.length === count) break outerLoop
+      }
+
+      lastFetched = ids[ids.length]
+      isSubsequentRun = true
+    } catch (err) {
+      console.error(err)
+      process.exit()
+    }
+  }
+
+  // Done fetching tweet IDs, put the array of IDs in a top-level
+  // object
+  const output = `{"ids":${JSON.stringify(ids)}}`
+
+  if (flags.output) {
+    require('fs').writeFileSync(flags.output, output, 'utf8')
+    console.log(`Wrote output to ${flags.output}`)
+  } else {
+    console.log(output)
+  }
+}
+
+function getTweets (username, count, retweets, lastFetched, replies) {
+  const req = constructRequestURL(username, count, retweets, lastFetched, replies)
+
+  return new Promise((resolve, reject) => {
+    oauth.get(req, ACCESS_TOKEN, ACCESS_TOKEN_SECRET, (err, data) => {
+      if (err) {
+        reject(err)
+      }
+
+      if (!data.length) {
+        reject('No tweets available')
+      }
+
+      resolve(JSON.parse(data))
+    })
+  })
+}
