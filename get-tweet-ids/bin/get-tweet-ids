@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const args = require('args')
 const OAuth = require('oauth').OAuth
 
 // Your Twitter API keys and tokens
@@ -19,3 +20,10 @@ const oauth = new OAuth(
   null,
   'HMAC-SHA1'
 )
+
+args
+  .option('maxid', 'The value to pass to the max_id parameter in the request')
+  .option('username', 'The Twitter user whose tweets the script will fetch')
+  .option('count', 'The number of tweets to fetch. Maximum 200')
+
+const flags = args.parse(process.argv)
