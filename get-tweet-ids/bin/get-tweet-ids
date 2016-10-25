@@ -25,8 +25,8 @@ args
   .option('maxid', 'The value to pass to the max_id parameter in the request')
   .option('username', 'The Twitter user whose tweets the script will fetch')
   .option('count', 'The number of tweets to fetch. Maximum 200')
-  .option('retweets', 'Include retweets', ['r'])
-  .option('output', 'The file to write to', ['o'])
+  .option('retweets', 'Include retweets')
+  .option('output', 'The file to write to')
 
 const flags = args.parse(process.argv)
 
