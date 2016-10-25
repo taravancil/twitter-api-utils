@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "args": "^2.1.0",
     "oauth": "^0.9.14"
   }
 }
