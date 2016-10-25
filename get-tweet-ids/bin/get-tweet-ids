@@ -27,6 +27,7 @@ args
   .option('count', 'The number of tweets to fetch. Maximum 200')
   .option('retweets', 'Include retweets')
   .option('output', 'The file to write to')
+  .option('replies', 'Include replies')
 
 const flags = args.parse(process.argv)
 
