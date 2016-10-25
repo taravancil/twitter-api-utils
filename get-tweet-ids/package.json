@@ -1,6 +1,12 @@
 {
   "dependencies": {
     "args": "^2.1.0",
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
     "oauth": "^0.9.14"
+  },
+  "scripts": {
+    "build": "babel index.js -o bin/get-tweet-ids",
+    "start": "node bin/get-tweet-ids"
   }
 }
