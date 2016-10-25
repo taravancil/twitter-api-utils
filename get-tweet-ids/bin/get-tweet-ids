@@ -27,3 +27,14 @@ args
   .option('count', 'The number of tweets to fetch. Maximum 200')
 
 const flags = args.parse(process.argv)
+
+validateOptions()
+
+function validateOptions () {
+  if (!flags.username) {
+    console.error('Username is required')
+    process.exit()
+  } else if (flags.count > 200) {
+    console.error('Max count is 200. Fetching 200 tweets...')
+  }
+}
