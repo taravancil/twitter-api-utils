@@ -55,7 +55,7 @@ function executeRequest (url) {
 
       res.on('end', () => {
         try {
-          parsed = JSON.parse(data)
+          const parsed = JSON.parse(data)
           resolve(parsed)
         } catch (err) {
           reject(err.message)
