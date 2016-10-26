@@ -2,6 +2,7 @@
 
 const args = require('args')
 const OAuth = require('oauth').OAuth
+const fs = require('fs')
 
 // Your Twitter API keys and tokens
 // See README.md for further instructions
@@ -28,6 +29,7 @@ args
   .option('retweets', 'Include retweets')
   .option('output', 'The file to write to')
   .option('replies', 'Include replies')
+  .option('existing', 'The path to an existing JSON file with "ids" key')
 
 const flags = args.parse(process.argv)
 
@@ -35,6 +37,13 @@ const flags = args.parse(process.argv)
 let lastFetched
 
 validateOptions()
+
+let existingIds = []
+if (flags.existing) {
+  const f = fs.readFileSync(flags.existing)
+  existingIds = JSON.parse(f).ids
+}
+
 getTweetIds()
 
 function validateOptions () {
@@ -43,6 +52,14 @@ function validateOptions () {
     process.exit()
   } else if (flags.count > 200) {
     console.error('Max count is 200. Fetching 200 tweets...')
+  } else if (flags.existing) {
+    try {
+      fs.stat(flags.existing)
+    } catch (err) {
+      console.error(err)
+      console.error(`${flags.existing} does not exist`)
+      process.exit()
+    }
   }
 }
 
@@ -115,8 +132,9 @@ async function getTweetIds () {
     }
   }
 
-  // Done fetching tweet IDs, put the array of IDs in a top-level
-  // object
+  // Done fetching tweet IDs, concatenate ids with existingIds and
+  // put the resulting array of in a top-level object
+  ids = existingIds.concat(ids)
   const output = `{"ids":${JSON.stringify(ids)}}`
 
   if (flags.output) {
