@@ -51,7 +51,7 @@ function executeRequest (url) {
 
       let data = ''
 
-      res.on('data', (chunk) => data += chunk)
+      res.on('data', (chunk) => { data += chunk })
 
       res.on('end', () => {
         try {
