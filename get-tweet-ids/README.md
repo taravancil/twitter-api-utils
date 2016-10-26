@@ -14,7 +14,7 @@ runs.
 
 ## Usage
 
-After install the dependencies, build it:
+After installing the dependencies, build it:
 
 ```
 $ npm run build
