@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "args": "^2.1.0"
+    "args": "^2.1.0",
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0"
+  },
+  "scripts": {
+    "build": "babel index.js -o bin/get-tweet-embed-html",
+    "start": "node bin/get-tweet-embed-html"
   }
 }
