@@ -22,3 +22,14 @@ function validateOptions () {
     process.exit()
   }
 }
+
+function constructRequestURL (id, username, align, maxWidth, thread, media, omitScript) {
+  const base = 'https://publish.twitter.com/oembed?'
+  const url = `url=https://twitter.com/${username}/status/${id}`
+  const hideThread = `&hide_thread=${!thread}`
+  const hideMedia = `&hide_media=${!media}`
+  const omitWidget = `&omit_script=${omitScript || false}`
+  const maxwidth = `&maxwidth=${maxWidth || 400}`
+
+  return `${base}${url}${hideThread}${hideMedia}${omitWidget}${maxwidth}`
+}
