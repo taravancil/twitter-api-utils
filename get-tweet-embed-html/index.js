@@ -9,6 +9,7 @@ args
   .option('media', 'Expand photo and video previews')
   .option('input', 'Path to a JSON file with a top-level "tweets ' +
           'object which is an array of objects with username and id keys')
+  .option('output', 'The path to write the output to')
   .option('thread', 'Expand tweet threads')
   .option('script', 'Include the script that loads Twitter\'s widget.js')
   .option('align', 'Float value for the embedded tweet.')
