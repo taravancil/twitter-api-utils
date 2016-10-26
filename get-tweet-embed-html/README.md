@@ -43,6 +43,7 @@ a valid ID for one of that user's tweets.
   {"username": "taravancil", "id": "123"},
   {"username": "taravancil", "id": "456"}
 ]}
+```
 
 ## Rate Limiting
 
