@@ -84,12 +84,32 @@ async function getTweetIds () {
       // Parse the tweet IDs
       for (const tweet of tweets) {
         ids.push(tweet.id)
-        if (ids.length === count) break outerLoop
+        if (ids.length === count) {
+          lastFetched = ids[ids.length - 1]
+          break outerLoop
+        }
       }
 
-      lastFetched = ids[ids.length]
+      // Set lastFetched to the ID of the last tweet in the response
+      lastFetched = ids[ids.length - 1]
+
+      // Flip flag
       isSubsequentRun = true
     } catch (err) {
+      // We've hit the rate limit for this endpoint, stop requesting
+      // tweets, but proceed to process the ones we already retrieved
+      if (err.statusCode === 429) {
+        console.log('Too many requests to the Twitter API.')
+        console.log(`Continue later by running the script with the
+      --maxid option set to ${lastFetched} and --existing to the path
+      of your existing JSON file`)
+        break
+      }
+
+      // There are no more tweets in the timeline, still process the
+      // ones we already retrieved
+      if (err === 'No tweets available' && ids.length) break
+
       console.error(err)
       process.exit()
     }
@@ -116,11 +136,13 @@ function getTweets (username, count, retweets, lastFetched, replies) {
         reject(err)
       }
 
+      data = JSON.parse(data)
+
       if (!data.length) {
         reject('No tweets available')
       }
 
-      resolve(JSON.parse(data))
+      resolve(data)
     })
   })
 }
