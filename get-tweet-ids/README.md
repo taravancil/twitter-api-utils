@@ -9,7 +9,8 @@ have an application token.
 Twitter also limits the amount of tweets that can be returned in each
 request to 200, so that means for users with more than 36,000 tweets,
 in order to get all tweet IDs, you'll need to run the script multiple
-times, passing the --maxid option in all subsequent runs.
+times, passing the --maxid and --existing options in all subsequent
+runs.
 
 ## Usage
 
@@ -36,6 +37,18 @@ $ npm start -- [options]
 | --replies | Include replies | false |
 | --retweets | Include retweets | false |
 | -u, --username | The Twitter user whose tweets the script will fetch ||
+
+
+## Example
+
+```
+$ npm start -- -u taravancil -c 3 --retweets
+
+// {"ids":[790917264040009700,789267779245318100,789108553315344400]}
+//
+// The ID of the last fetched tweet is:
+// 789108553315344400
+```
 
 ## Twitter API Keys and Tokens
 
