@@ -7,7 +7,13 @@ of client-side requests.
 
 ## Usage
 
-Run it!
+Build it:
+
+```
+$ npm run build
+```
+
+Then run it!
 
 ```
 $ npm start -- [options]
