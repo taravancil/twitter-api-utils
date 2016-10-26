@@ -33,7 +33,7 @@ $ npm start -- [options]
 | -h, --help | Display help | |
 | -c, --count | The number of tweets to fetch. Maximum 200 | Twitter's limits |
 | -m, --maxid | The ID of the most recent tweet to fetch | |
-| -o, --output | The file to write to | | 
+| -o, --output | The file to write to | |
 | --replies | Include replies | false |
 | --retweets | Include retweets | false |
 | -u, --username | The Twitter user whose tweets the script will fetch ||
