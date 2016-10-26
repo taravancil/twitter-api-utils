@@ -66,8 +66,7 @@ async function getTweetIds () {
   let ids = []
   let isSubsequentRun = false
 
-  const {username, retweets, replies} = flags
-  const count = flags.count || 200 // max value for count param in request
+  const {username, retweets, replies, count} = flags
 
   // Keep requesting tweets until we hit the Twitter API limits or
   // we've reached the desired count
