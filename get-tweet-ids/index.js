@@ -99,7 +99,7 @@ async function getTweetIds () {
 
       // Parse the tweet IDs
       for (const tweet of tweets) {
-        ids.push(tweet.id)
+        ids.push(tweet.id_str)
         if (ids.length === count) {
           lastFetched = ids[ids.length - 1]
           break outerLoop

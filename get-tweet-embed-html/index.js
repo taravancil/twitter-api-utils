@@ -2,7 +2,7 @@
 
 const args = require('args')
 const fs = require('fs')
-const http = require('http')
+const https = require('https')
 
 args
   .option('maxwidth', 'The max width of the embedded tweet. 220-550 inclusive.')
@@ -54,7 +54,7 @@ function constructRequestURL (id, username, align, maxWidth, thread, media, scri
 
 function executeRequest (url) {
   return new Promise((resolve, reject) => {
-    http.get(url, (res) => {
+    https.get(url, (res) => {
       const contentType = res.headers['content-type']
 
       if (res.statusCode !== 200) {
