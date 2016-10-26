@@ -9,7 +9,7 @@ have an application token.
 Twitter also limits the amount of tweets that can be returned in each
 request to 200, so that means for users with more than 36,000 tweets,
 in order to get all tweet IDs, you'll need to run the script multiple
-times, passing the --maxid and --existing options in all subsequent
+times, passing the `--maxid` and `--existing` options in all subsequent
 runs.
 
 ## Usage
