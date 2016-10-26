@@ -37,9 +37,9 @@ function constructRequestURL (id, username, align, maxWidth, thread, media, omit
 
 function executeRequest (url) {
   return new Promise((resolve, reject) => {
-    const contentType = res.headers['content-type']
-
     http.get(url, (res) => {
+      const contentType = res.headers['content-type']
+
       if (res.statusCode !== 200) {
         reject(new Error(`Request Failed\nStatus Code: ${res.statusCode}`))
       } else if (!/^application\/json/.test(contentType)) {
