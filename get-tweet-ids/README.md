@@ -11,6 +11,32 @@ request to 200, so that means for users with more than 36,000 tweets,
 in order to get all tweet IDs, you'll need to run the script multiple
 times, passing the --maxid option in all subsequent runs.
 
+## Usage
+
+After install the dependencies, build it:
+
+```
+$ npm run build
+```
+
+Then run it!
+
+```
+$ npm start -- [options]
+```
+
+### Options
+
+| Option | Description | Default |
+| --- | --- | --- |
+| -h, --help | Display help | |
+| -c, --count | The number of tweets to fetch. Maximum 200 | Twitter's limits |
+| -m, --maxid | The ID of the most recent tweet to fetch | |
+| -o, --output | The file to write to | | 
+| --replies | Include replies | false |
+| --retweets | Include retweets | false |
+| -u, --username | The Twitter user whose tweets the script will fetch ||
+
 ## Twitter API Keys and Tokens
 
 Before running the script, set the following environment variables:
