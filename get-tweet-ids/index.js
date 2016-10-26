@@ -33,9 +33,6 @@ args
 
 const flags = args.parse(process.argv)
 
-// The tweet id of the last tweet fetched
-let lastFetched
-
 validateOptions()
 
 let existingIds = []
@@ -43,6 +40,9 @@ if (flags.existing) {
   const f = fs.readFileSync(flags.existing)
   existingIds = JSON.parse(f).ids
 }
+
+// The ID of the last tweet fetched
+let lastFetched
 
 getTweetIds()
 
