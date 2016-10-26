@@ -21,7 +21,7 @@ $ npm start -- [options]
 | -a, --align | Float value for the embedded tweet. left, right, center | none |
 | --maxwidth | The max width of the embedded tweet. 220-550 inclusive. | 400 |
 | -m, --media | Expand photo and video previews | false |
-| -o, --omit-script | Omit the script that loads Twitter's widget.js | false |
+| -s, --script | Include the script that loads Twitter's widget.js | true |
 | -t, --thread | Expand tweet threads | false |
 
 
