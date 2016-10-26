@@ -56,7 +56,6 @@ function validateOptions () {
     try {
       fs.stat(flags.existing)
     } catch (err) {
-      console.error(err)
       console.error(`${flags.existing} does not exist`)
       process.exit()
     }
