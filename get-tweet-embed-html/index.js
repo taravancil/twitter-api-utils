@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const args = require('args')
+const http = require('http')
 
 args
   .option('maxwidth', 'The max width of the embedded tweet. 220-550 inclusive.')
@@ -32,4 +33,34 @@ function constructRequestURL (id, username, align, maxWidth, thread, media, omit
   const maxwidth = `&maxwidth=${maxWidth || 400}`
 
   return `${base}${url}${hideThread}${hideMedia}${omitWidget}${maxwidth}`
+}
+
+function executeRequest (url) {
+  return new Promise((resolve, reject) => {
+    const contentType = res.headers['content-type']
+
+    http.get(url, (res) => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`Request Failed\nStatus Code: ${res.statusCode}`))
+      } else if (!/^application\/json/.test(contentType)) {
+        reject(new Error(`Inavlid content type.\nExpected` +
+                         ` application/json but received ${contentType}`))
+      }
+
+      res.setEncoding('utf8')
+
+      let data = ''
+
+      res.on('data', (chunk) => data += chunk)
+
+      res.on('end', () => {
+        try {
+          parsed = JSON.parse(data)
+          resolve(parsed)
+        } catch (err) {
+          reject(err.message)
+        }
+      })
+    })
+  })
 }
