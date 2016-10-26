@@ -45,13 +45,13 @@ function validateOptions () {
 
 function constructRequestURL (id, username, align, maxWidth, thread, media, script) {
   const base = 'https://publish.twitter.com/oembed?'
-  const url = `url=https://twitter.com/${username}/status/${id}`
+  const url = encodeURIComponent(`https://twitter.com/${username}/status/`)
   const hideThread = `&hide_thread=${!thread}`
   const hideMedia = `&hide_media=${!media}`
   const omitScript = `&omit_script=${!script}`
   const maxwidth = `&maxwidth=${maxWidth || 400}`
 
-  return `${base}${url}${hideThread}${hideMedia}${omitScript}${maxwidth}`
+  return `${base}url=${url}${id}${hideThread}${hideMedia}${omitScript}${maxwidth}`
 }
 
 function executeRequest (url) {
