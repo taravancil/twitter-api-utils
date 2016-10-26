@@ -52,11 +52,11 @@ function constructRequestURL (username, tweetCount, includeRetweets,
   const screenname = `screen_name=${username}`
   const retweets = `&include_rts=${includeRetweets || false}`
   const replies = `&exclude_replies=${!includeReplies}`
-  const count = `&count=${tweetCount}`
+  const count = `&count=${tweetCount || 200}`
 
   let maxTweetID = ''
   if (maxID) {
-    maxTweetID = `max_id=${maxID}`
+    maxTweetID = `&max_id=${maxID}`
   }
 
   return `${base}${screenname}${retweets}${replies}${maxTweetID}${count}`
