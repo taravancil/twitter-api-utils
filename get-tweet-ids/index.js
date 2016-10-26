@@ -156,7 +156,7 @@ function getTweets (username, count, retweets, lastFetched, replies) {
 
       data = JSON.parse(data)
 
-      if (!data.length) {
+      if (!data.length || data[data.length -1]['id_str'] === lastFetched) {
         reject('No tweets available')
       }
 
