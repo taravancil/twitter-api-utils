@@ -32,6 +32,7 @@ $ npm start -- [options]
 | --- | --- | --- |
 | -h, --help | Display help | |
 | -c, --count | The number of tweets to fetch. Maximum 200 | Twitter's limits |
+| -e, --existing | The path to an existing JSON file with an "ids" key | |
 | -m, --maxid | The ID of the most recent tweet to fetch | |
 | -o, --output | The file to write to | |
 | --replies | Include replies | false |
