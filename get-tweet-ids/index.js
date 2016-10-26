@@ -143,6 +143,7 @@ async function getTweetIds () {
   } else {
     console.log(output)
   }
+  console.log(`\nThe ID of the last fetched tweet is:\n${lastFetched}`)
 }
 
 function getTweets (username, count, retweets, lastFetched, replies) {
