@@ -19,6 +19,7 @@ const flags = args.parse(process.argv)
 let tweets
 
 validateOptions()
+getEmbedHTML()
 
 function validateOptions () {
   if (!flags.input) {
@@ -81,4 +82,33 @@ function executeRequest (url) {
       })
     })
   })
+}
+
+async function getEmbedHTML () {
+  let output = {tweets: []}
+
+  const {maxwidth, align, media, thread, script} = flags
+
+  console.log('Fetching...')
+
+  for (tweet of tweets) {
+    const {id, username} = tweet
+
+    let req = constructRequestURL(id, username, align, maxwidth, thread, media, script)
+
+    try {
+      const res = await(executeRequest(req))
+      output.tweets.push({id: id, html: res.html, translated: false})
+    } catch (err) {
+      console.error(err)
+      process.exit()
+    }
+  }
+
+  if (flags.output) {
+    fs.writeFileSync(flags.output, JSON.stringify(output), 'utf8')
+    console.log(`Wrote output to ${flags.output}`)
+  } else {
+    console.log(output)
+  }
 }
