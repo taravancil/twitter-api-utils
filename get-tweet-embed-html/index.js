@@ -97,7 +97,7 @@ async function getEmbedHTML () {
     let req = constructRequestURL(id, username, align, maxwidth, thread, media, script)
 
     try {
-      const res = await(executeRequest(req))
+      const res = await executeRequest(req)
       output.tweets.push({id: id, html: res.html, translated: false})
     } catch (err) {
       console.error(err)
